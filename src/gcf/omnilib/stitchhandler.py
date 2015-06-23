@@ -271,6 +271,8 @@ class StitchingHandler(object):
         if self.isBound and not self.isMultiAM and self.opts.fixedEndpoint:
             self.logger.debug("Got --fixedEndpoint, so pretend this is multi AM")
             self.isMultiAM = True
+            # Note that with changes to mustCallSCS to consider the stitching extension paths,
+            # I hop this is never used/needed
 
         # If this is not a bound multi AM RSpec, just let Omni handle this.
         if not self.isBound or not self.isMultiAM:
@@ -1478,10 +1480,13 @@ class StitchingHandler(object):
         for am in self.ams_to_process:
             self.logger.info("\t%s", am)
 
-        # If we said this rspec needs a fixed / fake endpoint, add it here - so the SCS and other stuff
+        # If we said this rspec needs a fixed / fake endpoint, make the changes here - so the SCS and other stuff
         # doesn't try to do anything with it
         if self.opts.fixedEndpoint:
-            self.addFakeNode()
+            #self.addFakeNode()
+            # FIXME: JonD now says that the fake iref/node is not needed, if instead we fine the appropriate interface
+            # on the real node and set component_id attribute on it explicitly, if not already set.
+            self.ensureIrefCID()
 
         # DCN AMs seem to require there be at least one sliver_type specified
         self.ensureSliverType()
@@ -2475,6 +2480,40 @@ class StitchingHandler(object):
         # Currently the parser only saves the IRefs on Links - no attempt to link to Nodes
         # And for Nodes, we don't even look at the Interface sub-elements
         # End of loop over links
+ 
+        if not needSCS and requestRSpecObject.stitching and requestRSpecObject.stitching.paths:
+            # If we have a stitching extension with a link at 2+ AMs, then need the SCS I think to ensure path is complete
+            # Arguably we'd expect a main body link with interfaces at only 1 AM to match, otherwise we'd
+            # already know we need the SCS. But checking that seems unnecessary.
+
+            # Helper to parse the authority out of a possibly bad URN
+            def authFromBadURN(urn):
+                if not urn:
+                    return urn
+                spl = urn.split('+')
+                if len(spl) < 2:
+                    return urn
+                return urn_to_string_format(spl[1])
+
+            # Count the different AMs on each stitched path
+            for path in requestRSpecObject.stitching.paths:
+                ams = set()
+                for hop in path.hops:
+                    if hop.aggregate:
+                        ams.add(authFromBadURN(str(hop.aggregate)))
+                    else:
+                        ams.add(authFromBadURN(str(hop.urn)))
+                # First try path.aggregates, but that seems to not (?always?) be filled in yet at this point
+                if len(path.aggregates) > 1:
+                    self.logger.debug("Stitching path %s uses %d AMs, so need SCS", path, len(path.aggregates))
+                    needSCS = True
+                    break
+                elif len(ams) > 1:
+                    self.logger.debug("Stitching path %s uses hops with %d AMs, so need SCS", path, len(ams))
+                    needSCS = True
+                    break
+                else:
+                    self.logger.debug("Stitching path %s uses %d AMs (%d from hops), so do not need SCS", path, len(path.aggregates), len(ams))
 
         return needSCS
 
@@ -3830,6 +3869,15 @@ class StitchingHandler(object):
                     self.logger.debug("To keep DCN AMs happy, adding a default-vm sliver type to node %s", id)
                     return
     # End of ensureSliverType
+
+    def ensureIrefCID(self):
+        # Used with the --fixedEndpoint option
+        # For each link that has interfaces at only a single AM
+        # If that AM is a PG AM
+        # Find the interface on the node that matches that interface_ref
+        # If it does not have a component_id attribute on it, set one on the first interface on that node
+        # (that is, only do this to 1 interface per node)
+        pass
 
     # If we said this rspec needs a fake endpoint, add it here - so the SCS and other stuff
     # doesn't try to do anything with it. Useful with Links from IG AMs to fixed interfaces

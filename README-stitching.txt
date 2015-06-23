@@ -233,9 +233,11 @@ Additionally, these options are used for some topologies:
  request the specified capacity (in Kbps). Default is '20000' meaning ~20Mbps.
  - `--fixedEndpoint`: Use this if you want a dynamic circuit that ends
  not at a node, but at a switch (E.G. because you have a static VLAN to a
- fixed non-AM controlled host from there.). This option adds a fake
- `node` and `interface_ref` to the link. Note that your request RSpec will
- still need >= 2 `component_manager`s on the `<link>`, and you will need a
+ fixed non-AM controlled host from there.). This option adds some
+ small workarounds to your request to ensure all aggregates understand
+ your request. Note that your request RSpec will
+ still need >= 2 `component_manager`s on the `<link>` to be identifies
+ ast a stitching link, and you will need a
  skeletal stitching extension with 1 hop being the switch/VLAN where
  you want to end, and a 2nd being the AM where you want to end up.
  - `--noExoSM`: Avoid using the ExoGENI ExoSM. If an aggregate is an
@@ -374,9 +376,11 @@ export PYTHONPATH=$PYTHONPATH:.
 python src/gcf/omnilib/stitch/scs.py --listaggregates --key <path-to-key> --cert <path-to-cert>
 }}}
  - Stitching to fixed endpoints:
-  - A fixed endpoint is any switch/port that happens to connect to
-  other things but not an explicit node. Use the `--fixedEndpoint`
-  option to be sure aggregates can handle this.
+  - When you want a stitched link from a GENI resource to non GENI
+    resources, you will have a link which lists resources at only a
+    single aggregate. We call this stitching to a fixed endpoint.
+  - Some aggregates need special handling to handle such a link;
+    Supply the `--fixedEndpoint` option.
   - Typically when using this option, you supply a partial stitching
     extension in your request RSpec, indicating as hop1 a GENI
     aggregate with compute resources, and the other end your switch or

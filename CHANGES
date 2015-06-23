@@ -23,6 +23,12 @@ gcf 2.10:
     complete already. Or use this on the expanded request from a stitcher
     call with `--noReservation`. Lack of a workflow may be a problem
     in some cases. (#839)
+  * Revise handling of `--fixedEndpoint` option. Instead of adding a
+    fake node to the request, ensure that at PG based aggregates, one
+    of the interfaces on the link that goes to a fixed endpoint has an
+    explicit `component_id`. (#840)
+   * Also, treat any request with a stitching extension path across 2+
+     aggregates as a stitching request needing the SCS.
 
  * gcf
   * Add utility function to derive the effective user's client cert, after
