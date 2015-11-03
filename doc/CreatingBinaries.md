@@ -1,5 +1,5 @@
 # Creating geni-tools Windows and Mac Binaries
-When creating a geni-tools release, we create binaries for installing the Omni and Stitcher tools on Windows and MAC. These binaries must be tested as part of the release process. See the [release process documentation](IssuingReleases.MD) for details.
+When creating a geni-tools release, we create binaries for installing the Omni and Stitcher tools on Windows and MAC. These binaries must be tested as part of the release process. See the [release process documentation](IssuingReleases.md) for details.
 
 Note that these instructions have not been repeated from scratch recently; there may be issues with new version numbers. If you update the version of any package used in the release, update [the License file](../windows_install/LICENSE.TXT). And try to keep the versions the same across Windows and Mac.
 
