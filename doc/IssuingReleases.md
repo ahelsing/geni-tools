@@ -11,17 +11,17 @@ Creating a release involves:
  * Update develop for next release
  * Update wiki pages
  * Create release on Github
- * Email announcing the release
+ * Send email announcing the release
 
 ## Review Issues and Pull Requests
 * Ensure that there are no critical open issues or pull requests, particularly those targeted at the next release.
 * Re target any remaining issues that will not be fixed for this release to the next release.
 
 ## Update Docs
- 1. `README-omni.txt` must document all options and commands. The top of the file must list recent Omni changes. Also confirm the file displays nicely on a wiki page.
- 2. `CHANGES` must document all recent changes in any of the tools, by version number. Also confirm the file displays nicely on a wiki page.
+ 1. `README-omni.txt` must document all options and commands. The top of the file must list recent Omni changes. Also confirm that the file displays nicely on a wiki page.
+ 2. `CHANGES` must document all recent changes in any of the tools, by version number. Also confirm that the file displays nicely on a wiki page.
  * Be sure all issues closed on Github with this milestone are listed, and closed issues are propertly targeted.
- 4. `windows_install/LICENSE.txt` must properly reference all required 3rd party libraries used in the MAC and Windows binaries, with proper license text.
+ 4. `windows_install/LICENSE.txt` must properly reference all required 3rd party libraries used in the Mac and Windows binaries, with proper license text.
  5. Update others as needed. Check version numbers in these files:
   * `src/gcf/gcf_version.py`
   * `INSTALL.txt`
@@ -55,59 +55,59 @@ Test and test some more. This is simply some suggestions. Bugs need issues and p
  1. Release candidates can be downloaded from Github: https://github.com/GENI-NSF/geni-tools/tags
  2. Confirm all fixes are listed in `CHANGES` and `README-omni`
  3. Test all new features (ideally as documented on the relevant pull request)
- 4. Test all amhandler and chhandler commands, using the 'chapi' framework at least
- * In particular, create a reservation at multiple AM types, check status, list resources in slice, renew the reservation, mix APIv2 and APIV3
+ 4. Test all `amhandler` and `chhandler` commands, using the 'chapi' framework at least
+  * In particular, create a reservation at multiple AM types, check status, list resources in slice, renew the reservation, mix APIv2 and APIv3
  where possible, (test scripts like `readyToLogin` here), then delete the reservation.
  5. Test key options, such as:
- * `-a`: test with `createsliver`, `listresources`
- * `--available`: test with `listresources` and `describe` at 2 different kinds of aggregates
- * `-c`
- * `-f`
- * `-r`: test with `listresources`
- * `--alap`: test with `renew` and `renewsliver` at 2 different kinds of aggregates
- * `-V`
- * `--useSliceAggregates`: test with `sliverstatus`
- * `--optionsfile`: FIXME
- * `--speaksfor` with `--cred`: FIXME
- * `-u`: Test e.g. with `status`
- * `--warn`
- * `--tostdout`
- * `-o`: Test e.g. with `getusercred`
- * `--outputfile`: Test e.g. with `listresources`
- * `--slicecredfile`: Test e.g. with `listresources`
- * `--NoGetVersionCache`
+  * `-a`: test with `createsliver`, `listresources`
+  * `--available`: test with `listresources` and `describe` at 2 different kinds of aggregates
+  * `-c`
+  * `-f`
+  * `-r`: test with `listresources`
+  * `--alap`: test with `renew` and `renewsliver` at 2 different kinds of aggregates
+  * `-V`
+  * `--useSliceAggregates`: test with `sliverstatus`
+  * `--optionsfile`: FIXME
+  * `--speaksfor` with `--cred`: FIXME
+  * `-u`: Test e.g. with `status`
+  * `--warn`
+  * `--tostdout`
+  * `-o`: Test e.g. with `getusercred`
+  * `--outputfile`: Test e.g. with `listresources`
+  * `--slicecredfile`: Test e.g. with `listresources`
+  * `--NoGetVersionCache`
 
  6. Test key stitcher functions
- * Test stitch across AL2S using APIv2 to InstaGENI endpoint(s)
- * Test using APIv3
- * Try `delete`
- * Try `listresources`
- * Stitch to ExoGENI
- * Try a stitch to CloudLab, InstaGENI Utah
- * Test key stitcher options, like:
-  * `--fileDir`
-  * `--noReservation`
-  * `--useExoSM` (with a reservation that uses ExoGENI resources)
+  * Test stitch across AL2S using APIv2 to InstaGENI endpoint(s)
+  * Test using APIv3
+  * Try `delete`
+  * Try `listresources`
+  * Stitch to ExoGENI
+  * Try a stitch to CloudLab, InstaGENI Utah
+  * Test key stitcher options, like:
+   * `--fileDir`
+   * `--noReservation`
+   * `--useExoSM` (with a reservation that uses ExoGENI resources)
  
  7. Test other experimenter scripts:
- * `readyToLogin`
- * `omni-configure` using a GENI Portal bundle
- * `clear-passphrases`
- * `remote-execute`
- * `addMemberToSliceAndSlivers`
+  * `readyToLogin`
+  * `omni-configure` using a GENI Portal bundle
+  * `clear-passphrases`
+  * `remote-execute`
+  * `addMemberToSliceAndSlivers`
 
  8. Test GCF tools
- * Run `gcf-am`, `gcf-ch` with both `-V2` and `-V3`. Test using `gcf-test -V2` and `-V3` respectively.
+  * Run `gcf-am`, `gcf-ch` with both `-V2` and `-V3`. Test using `gcf-test -V2` and `-V3` respectively.
  
 ## Create and test Windows and MAC Binaries
 We create installers for geni-tools for Windows and MAC. Each of these must be created and separately tested.
 
-For instructions on creating these binaries, see CreatingBinaries.md.
+See the [instructions on creating these binaries](CreatingBinaries.md).
 
 To test these installers:
 * Try each on multiple versions of the OS, starting from a clean install of the OS
- * MAC OS X 10.8+ ideally
- * Windows 7,8,10 ideally
+ * Mac OS X 10.8+ ideally
+ * Windows 7, 8, 10 ideally
 * Test each included executable
 
 # Merge the release branch
@@ -117,7 +117,7 @@ Tag the new release
 * `git fetch origin -p`
 * `git checkout release-X`
 * `git merge origin/release-X`
-* `git tag -a -m "Release X" vX release-X
+* `git tag -a -m "Release X" vX release-X`
 * `git push origin --tags`
 
 Merge in the release branch
