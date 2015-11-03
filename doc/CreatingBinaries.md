@@ -1,7 +1,7 @@
 # Creating geni-tools Windows and Mac Binaries
-When creating a geni-tools release, we create binaries for installing the Omni and Stitcher tools on Windows and MAC. These binaries must be tested as part of the release process. See the [release process documentation](IssuingReleases.md) for details.
+When creating a geni-tools release, we create binaries for installing the Omni and Stitcher tools on Windows and MAC. These binaries must be tested as part of the release process. See the [release process documentation](IssuingReleases.MD) for details.
 
-Note that these instructions have not been repeated from scratch recently; there may be issues with new version numbers. If you update the version of any package used in the release, update [the License file](../windows_install/LICENSE.txt). And try to keep the versions the same across Windows and Mac.
+Note that these instructions have not been repeated from scratch recently; there may be issues with new version numbers. If you update the version of any package used in the release, update [the License file](../windows_install/LICENSE.TXT). And try to keep the versions the same across Windows and Mac.
 
 ## Windows
 Support files are located in `geni-toos/windows_install`. You will need a Windows machine/VM, preferably not one on which you are doing development.
@@ -22,7 +22,7 @@ Support files are located in `geni-toos/windows_install`. You will need a Window
 * OpenSSL:
  * http://www.microsoft.com/downloads/details.aspx?familyid=9B2DA534-3E03-4391-8A4D-074B9F2BC1BF
  * http://slproweb.com/download/Win32OpenSSL-1_0_1g.exe
-  * Should probably be replaced with https://slproweb.com/download/Win32OpenSSL-1_0_2d.exe, but must update the [LICENSE file](../windows_install/LICENSE.txt) appropriately
+  * Should probably be replaced with https://slproweb.com/download/Win32OpenSSL-1_0_2d.exe, but must update the [LICENSE file](../windows_install/LICENSE.TXT) appropriately
 * dateutil
  * http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz
  * After extracting the file into `C:\Python27\Lib\site-packages`, copy the `dateutil` folder and paste it into the `\Lib\site-packages\` folder in your Python folder (usually `C:\Python27\`)
