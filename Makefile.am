@@ -6,6 +6,7 @@ SUBDIRS = src examples
 
 dist_doc_DATA = \
 	CHANGES \
+	CHANGES.md \
 	CONTRIBUTING.md \
 	CONTRIBUTORS.md \
 	INSTALL-centos.md \

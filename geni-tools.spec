@@ -360,6 +360,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/gcf/stitcher_logging_deft.pyc
 %{python_sitelib}/gcf/stitcher_logging_deft.pyo
 %doc %{_docdir}/%{name}/CHANGES
+%doc %{_docdir}/%{name}/CHANGES.md
 %doc %{_docdir}/%{name}/CONTRIBUTING.md
 %doc %{_docdir}/%{name}/CONTRIBUTORS.md
 %doc %{_docdir}/%{name}/INSTALL-centos.md

@@ -40,7 +40,7 @@ GCF / geni-tools source code is available on [GitHub](https://github.com/GENI-NS
   - Follow the [code guidelines below](#code-style).
   - Reference the appropriate issue numbers in your commit messages.
   - Include the [GENI Public License](LICENSE.txt) and a copyright notice in any new source files.
-  - All changes should be listed in the [CHANGES](CHANGES) file, with an issue number.
+  - All changes should be listed in the [CHANGES.md](CHANGES.md) file, with an issue number.
    - Changes to Omni should also be listed in [README-omni.txt](README-omni.txt).
   - Where the options or command behavior has changed, document that in
  [README-omni.txt](README-omni.txt) or [README-stitching.txt](README-stitching.txt).
