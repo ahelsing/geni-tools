@@ -60,24 +60,34 @@ Test and test some more. This is simply some suggestions. Bugs need issues and p
  4. Test all `amhandler` and `chhandler` commands, using the 'chapi' framework at least
   * In particular, create a reservation at multiple AM types, check status, list resources in slice, renew the reservation, mix APIv2 and APIv3
  where possible, (test scripts like `readyToLogin` here), then delete the reservation.
- 5. Test key options, such as:
+ 5. Test key options (see Omni README), such as:
   * `-a`: test with `createsliver`, `listresources`
   * `--available`: test with `listresources` and `describe` at 2 different kinds of aggregates
-  * `-c`
-  * `-f`
-  * `-r`: test with `listresources`
-  * `--alap`: test with `renew` and `renewsliver` at 2 different kinds of aggregates
-  * `-V`
+  * `-c <omni config with non standard location>`
+  * `-f <omni config framework, when have multiple in the omni_config>`
+  * `-r <project>`: test with `listresources`
+  * `--alap`: test with `renew` and `renewsliver` at 2 different kinds of aggregates and long expirations
+  * `-V` to toggle between AM API v2 and v3 at least
   * `--useSliceAggregates`: test with `sliverstatus`
-  * `--optionsfile`: FIXME
-  * `--speaksfor` with `--cred`: FIXME
-  * `-u`: Test e.g. with `status`
+  * `--optionsfile <json file of options>`: Test that Omni correctly passes AM API options specified in this file. For example, do `poa geni_update_users` on an existing APIv3 reservation, and supply a JSON options file something like this:
+```
+{
+ "geni_users": [
+  {
+   "urn": "urn:publicid:IDN+ch.geni.net+user+username",
+   "keys": ["ssh-rsa AAAASSH-publi-key-goes-here==== keyID@machine"]
+  }
+ ]
+}
+```
+  * `--speaksfor` with `--cred`: Test that Omni correctly passes the credential supplied in the file specified by `--cred` saying that the Omni user `--speaksfor` the user whose URN is given. See `src/gcf/geni/util/speaksfor_util.py`
+  * `-u <sliver_urn>`: Test e.g. with `status`
   * `--warn`
-  * `--tostdout`
+  * `--tostdout`: Test with `listresource`
   * `-o`: Test e.g. with `getusercred`
   * `--outputfile`: Test e.g. with `listresources`
   * `--slicecredfile`: Test e.g. with `listresources`
-  * `--NoGetVersionCache`
+  * `--NoGetVersionCache`: Test with listresources and ensure Omni does GetVersion first.
 
  6. Test key stitcher functions
   * Test stitch across AL2S using APIv2 to InstaGENI endpoint(s)
@@ -87,8 +97,8 @@ Test and test some more. This is simply some suggestions. Bugs need issues and p
   * Stitch to ExoGENI
   * Try a stitch to CloudLab, InstaGENI Utah
   * Test key stitcher options, like:
-   * `--fileDir`
-   * `--noReservation`
+   * `--fileDir <new dir for stitcher output>`: Ensure all output goes in new directory
+   * `--noReservation`: Stitcher should calculate the request but not do it
    * `--useExoSM` (with a reservation that uses ExoGENI resources)
  
  7. Test other experimenter scripts:
