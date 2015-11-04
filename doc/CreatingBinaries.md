@@ -4,7 +4,7 @@ When creating a geni-tools release, we create binaries for installing the Omni a
 Note that these instructions have not been repeated from scratch recently; there may be issues with new version numbers. If you update the version of any package used in the release, update [the License file](../windows_install/LICENSE.TXT). And try to keep the versions the same across Windows and Mac.
 
 ## Windows
-Support files are located in `geni-toos/windows_install`. You will need a Windows machine/VM, preferably not one on which you are doing development.
+Support files are located in `geni-tools/windows_install`. You will need a Windows machine/VM, preferably not one on which you are doing development.
 
 ### Install Dependencies
 * Python 2.7.6: http://python.org/ftp/python/2.7.6/python-2.7.6.msi
@@ -76,11 +76,11 @@ The installer setup file is `package_builder.iss`. It was created using http://s
 * Test installation.
  * Inno Setup will likely run the setup tool itself automatically.
   * Check the menu items all open the proper files: Disclaimer opens License, 2 web links, and the uninstall tool
- * Follow the rest of the install instructions starting with step 2  [here](http://trac.gpolab.bbn.com/gcf/wiki/Windows#Install)
+ * Follow the rest of the install instructions starting with step 2 [here](http://trac.gpolab.bbn.com/gcf/wiki/Windows#Install)
   * Put the Omni tools on your path
  * Open a new command window, and test that all the executables run
 
-Installer will be `C:\Users\local_user\gcf\executables\omniTools-X.X-win-setup.exe`
+Installer will be something like `C:\Users\local_user\gcf\executables\omniTools-2.10-win-setup.exe`
 
 ## Mac
 Support files are located in `geni-tools/mac_install`. You will need a MAC, preferably not one on which you are doing development.
@@ -156,16 +156,16 @@ The releases by default do not include two images required for creating the rele
 * Run `omni.py -a ig-gpo getversion`
 
 ### Create release directories
-* `mkdir -p ~/omniTools/omniTools-9.9` (fixing numbers)
+* `mkdir -p ~/omniTools/omniTools-2.10` (fixing numbers)
 * Note that the top level directory must not have the name of the final volume, and is encoded in `makeMacdmg.sh`.
 
 ### Change icon for directory
-Change the icon for the `omniTools-9.9` directory to `OmniGraphic.png`:
+Change the icon for the `omniTools-2.10` directory to `OmniGraphic.png`:
 (See http://support.apple.com/kb/ht2493)
 
 * In Finder, navigate to and open (in preview) `geni-tools/mac_install/OmniGraphic.png`
 * `Edit->Select All`, then `Copy`
-* In Finder, navigate to the `new ~/omniTools/omniTools-X.X` directory
+* In Finder, navigate to the `new ~/omniTools/omniTools-2.10` directory
 * `Command-I` (Or right click then `Get Info`)
 * Click the folder icon in the top left
 * `Paste`
@@ -180,18 +180,18 @@ Lots of stuff will print out.
 * `Applications -> Utilities -> Disk Utility`
 * `File -> New -> Disk Image from Folder`
 * Select `~/omniTools`
-* Save the image as `omniTools-2.7-mac-rc1-try1` (or whatever)
+* Save the image as `omniTools-2.10-mac-rc1-try1` (or whatever)
 * Change `Image Format` to `read+write`
 * If it fails with `Resource Busy`, try closing all other apps and windows, empty the trash, and try again
 * Double click the .dmg name to mount the disk
 * Rename the mounted volume to remove the `-rc1` bit
 * Open the volume in Finder
-* Open a new Finder window and navigate to the `omniTools-2.7` folder within the mounted volume, so you can see `background.png`
+* Open a new Finder window and navigate to the `omniTools-2.10` folder within the mounted volume, so you can see `background.png`
 * Select the volume and hit `Cmd-J`
 * Towards the bottom of that window, change `Background` from `White` to `Picture`
 * Select `background.png` from the other Finder window and drag that to the space shown
 * Close that info window
-* Re-organize the new Finder window with a background, so `omniTools-2.7` is to left of the arrow and `Applications` to the right, and the 2 .txt files are one above the other. Then resize the window to fit well.
+* Re-organize the new Finder window with a background, so `omniTools-2.10` is to left of the arrow and `Applications` to the right, and the 2 .txt files are one above the other. Then resize the window to fit well.
 * Close the Finder and info windows
 * In `Disk Utility`, select the DMG
 * Click `Convert`
@@ -209,4 +209,4 @@ Lots of stuff will print out.
 * Un-install
  * In finder, drag `omniTools` to the trash
 * Eject the `omniTools` dmg
-* Rename dmg to something like `omniTools-2.7-mac-rc1.dmg`
+* Rename dmg to something like `omniTools-2.10-mac-rc1.dmg`

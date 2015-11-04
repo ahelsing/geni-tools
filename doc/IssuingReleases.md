@@ -4,6 +4,8 @@ This document describes the typical process for creating a new release of geni-t
 As a reminder, geni-tools follows the branching model found here: http://nvie.com/posts/a-successful-git-branching-model/, and follows the general [GitHub open source project guidelines](https://guides.github.com/activities/contributing-to-open-source/#contributing).
 
 Creating a release involves:
+ * Review Issues
+ * Update Documentation
  * Create a release branch
  * Test and fix as needed
  * Create Windows and Mac binaries and test
@@ -17,7 +19,7 @@ Creating a release involves:
 * Ensure that there are no critical open issues or pull requests, particularly those targeted at the next release.
 * Re target any remaining issues that will not be fixed for this release to the next release.
 
-## Update Docs
+## Update Documentation
  1. `README-omni.txt` must document all options and commands. The top of the file must list recent Omni changes. Also confirm that the file displays nicely on a wiki page.
  2. `CHANGES` must document all recent changes in any of the tools, by version number. Also confirm that the file displays nicely on a wiki page.
  * Be sure all issues closed on Github with this milestone are listed, and closed issues are propertly targeted.
@@ -97,7 +99,9 @@ Test and test some more. This is simply some suggestions. Bugs need issues and p
   * `addMemberToSliceAndSlivers`
 
  8. Test GCF tools
-  * Run `gcf-am`, `gcf-ch` with both `-V2` and `-V3`. Test using `gcf-test -V2` and `-V3` respectively.
+  * Run `gcf-am`, `gcf-ch` with both `-V2` and `-V3`.
+  * Test using `gcf-test -V2` and `-V3` respectively.
+  * See running instructions in `README-gcf.txt`.
  
 ## Create and test Windows and MAC Binaries
 We create installers for geni-tools for Windows and MAC. Each of these must be created and separately tested.
@@ -105,9 +109,7 @@ We create installers for geni-tools for Windows and MAC. Each of these must be c
 See the [instructions on creating these binaries](CreatingBinaries.md).
 
 To test these installers:
-* Try each on multiple versions of the OS, starting from a clean install of the OS
- * Mac OS X 10.8+ ideally
- * Windows 7, 8, 10 ideally
+* Try each on the most recent version(s) of the OS, starting from a clean install of the OS
 * Test each included executable
 
 # Merge the release branch
@@ -115,24 +117,24 @@ When testing and bug fixes are complete, you can start making this release offic
 
 Tag the new release
 * `git fetch origin -p`
-* `git checkout release-X`
-* `git merge origin/release-X`
-* `git tag -a -m "Release X" vX release-X`
+* `git checkout release-2.10`
+* `git merge origin/release-2.10`
+* `git tag -a -m "Release 2.10" v2.10 release-2.10`
 * `git push origin --tags`
 
 Merge in the release branch
 * `git checkout master`
 * `git merge origin/master`
-* `git merge --no-ff release-X`
+* `git merge --no-ff release-2.10`
 * `git push origin master`
 * `git checkout develop`
 * `git merge origin/develop`
-* `git merge --no-ff release-X`
+* `git merge --no-ff release-2.10`
 * `git push origin develop`
 
 Delete the release branch
-* `git push origin :release-X`
-* `git branch -D release-X`
+* `git push origin :release-2.10`
+* `git branch -D release-2.10`
 
 # Update develop for next release
 Bump up the version number listed on develop to be the next release.
@@ -178,7 +180,7 @@ Docs are currently at http://trac.gpolab.bbn.com/gcf/
 * https://github.com/GENI-NSF/geni-tools/releases
 * Hit `Draft a new release`
 * Pick the proper tag
-* Title release something like `Stitcher / Omni version 2.9`
+* Title release something like `Stitcher / Omni version 2.10`
 * Give the release a nice description
 * Attach the Windows and Mac binaries
 * `Preview`, then `Publish`
