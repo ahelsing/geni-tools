@@ -63,6 +63,7 @@ from ...omnilib.util import credparsing as credutils
 
 from ..auth.base_authorizer import *
 from .am_method_context import AMMethodContext
+from .api_error_exception import ApiErrorException
 
 # See sfa/trust/rights.py
 # These are names of operations
@@ -132,16 +133,6 @@ class AM_API(object):
     ALREADY_EXISTS = 17
     # --- Non-standard errors below here. ---
     OUT_OF_RANGE = 19
-
-
-class ApiErrorException(Exception):
-    def __init__(self, code, output):
-        self.code = code
-        self.output = output
-
-    def __str__(self):
-        return "ApiError(%r, %r)" % (self.code, self.output)
-
 
 class Sliver(object):
     """A sliver is a single resource assigned to a single slice
@@ -286,7 +277,7 @@ class ReferenceAggregateManager(object):
 
     # root_cert is a single cert or dir of multiple certs
     # that are trusted to sign credentials
-    def __init__(self, root_cert, urn_authority, url):
+    def __init__(self, root_cert, urn_authority, url, **kwargs):
         self._urn_authority = urn_authority
         self._url = url
         self._cred_verifier = geni.CredentialVerifier(root_cert)
@@ -548,8 +539,8 @@ class ReferenceAggregateManager(object):
             sliver.setStartTime(start_time)
             sliver.setEndTime(end_time)
             sliver.setAllocationState(STATE_GENI_ALLOCATED)
-        self._agg.allocate(slice_urn, newslice.slivers())
-        self._agg.allocate(user_urn, newslice.slivers())
+        self._agg.allocate(slice_urn, newslice.resources())
+        self._agg.allocate(user_urn, newslice.resources())
         self._slices[slice_urn] = newslice
 
         # Log the allocation
@@ -578,7 +569,7 @@ class ReferenceAggregateManager(object):
         # EG the 'info' privilege in a credential allows the operations
         # listslices, listnodes, policy
         privileges = (PROVISION_PRIV,)
-        creds = self.getverifiedcredentials(the_slice.urn, credentials, options, privileges)
+        creds = self.getVerifiedCredentials(the_slice.urn, credentials, options, privileges)
 
         if 'geni_rspec_version' not in options:
             # This is a required option, so error out with bad arguments.
@@ -626,7 +617,7 @@ class ReferenceAggregateManager(object):
                                       and options['geni_end_time']))
         for sliver in slivers:
             # Extend the lease and set to PROVISIONED
-            expiration = min(sliver.getEndTime(), max_expiration)
+            expiration = min(sliver.endTime(), max_expiration)
             sliver.setEndTime(expiration)
             sliver.setExpiration(expiration)
             sliver.setAllocationState(STATE_GENI_PROVISIONED)
@@ -657,9 +648,9 @@ class ReferenceAggregateManager(object):
             return self.errorResult(AM_API.UNAVAILABLE,
                                     ("Unavailable: Slice %s is unavailable."
                                      % (the_slice.urn)))
-
-        self._agg.deallocate(the_slice.urn, slivers)
-        self._agg.deallocate(user_urn, slivers)
+        resources = [sliver.resource() for sliver in slivers]
+        self._agg.deallocate(the_slice.urn, resources)
+        self._agg.deallocate(user_urn, resources)
         for sliver in slivers:
             slyce = sliver.slice()
             slyce.delete_sliver(sliver)
@@ -944,7 +935,7 @@ class ReferenceAggregateManager(object):
         slice_urn.
         options here are passed to the verify_from_string method 
         of the cred verifier.
-        Raise Exception if no credentials with enough privilegs are found. 
+        Raise Exception if no credentials with enough privileges are found. 
         Return the credentials returned by the credential verifier otherwise.
         """
         # Note that verify throws an exception on failure.
@@ -1107,9 +1098,15 @@ class ReferenceAggregateManager(object):
                 self.logger.debug("Deleting empty slice %r", slyce.urn)
                 del self._slices[slyce.urn]
 
-    def decode_urns(self, urns):
+    def decode_urns(self, urns, **kwargs):
         """Several methods need to map URNs to slivers and/or deduce
         a slice based on the slivers specified.
+
+        When called from AMMethodContext, kwargs will have 2 keys
+        (credentials and options), with the same values as the credentials
+        and options parameters of the AMv3 API entry points. This can be 
+        usefull for delegates derived from the ReferenceAggregateManager, 
+        but is not used in this reference implementation.
 
         Returns a slice and a list of slivers.
         """
@@ -1388,7 +1385,8 @@ class AggregateManagerServer(object):
     def __init__(self, addr, keyfile=None, certfile=None,
                  trust_roots_dir=None,
                  ca_certs=None, base_name=None,
-                 authorizer=None, resource_manager=None):
+                 authorizer=None, resource_manager=None,
+                 delegate=None):
         # ca_certs arg here must be a file of concatenated certs
         if ca_certs is None:
             raise Exception('Missing CA Certs')
@@ -1397,11 +1395,15 @@ class AggregateManagerServer(object):
 
         # Decode the addr into a URL. Is there a pythonic way to do this?
         server_url = "https://%s:%d/" % addr
-        delegate = ReferenceAggregateManager(trust_roots_dir, base_name,
-                                             server_url)
-        # FIXME: set logRequests=true if --debug
+        if delegate is None:
+            delegate = ReferenceAggregateManager(trust_roots_dir, base_name,
+                                                 server_url)
+
+        # FIXED: set logRequests=true if --debug
+        logRequest=logging.getLogger().getEffectiveLevel()==logging.DEBUG
         self._server = SecureXMLRPCServer(addr, keyfile=keyfile,
-                                          certfile=certfile, ca_certs=ca_certs)
+                                          certfile=certfile, ca_certs=ca_certs, 
+                                          logRequests=logRequest)
         aggregate_manager = AggregateManager(trust_roots_dir, delegate, 
                                              authorizer, resource_manager)
         self._server.register_instance(aggregate_manager)
