@@ -236,8 +236,8 @@ Additionally, these options are used for some topologies:
  fixed non-AM controlled host from there.). This option adds some
  small workarounds to your request to ensure all aggregates understand
  your request. Note that your request RSpec will
- still need >= 2 `component_manager`s on the `<link>` to be identifies
- ast a stitching link, and you will need a
+ still need >= 2 `component_manager`s on the `<link>` to be identified
+ as a stitching link, and you will need a
  skeletal stitching extension with 1 hop being the switch/VLAN where
  you want to end, and a 2nd being the AM where you want to end up.
  - `--noExoSM`: Avoid using the ExoGENI ExoSM. If an aggregate is an

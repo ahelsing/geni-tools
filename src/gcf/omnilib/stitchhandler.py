@@ -272,7 +272,7 @@ class StitchingHandler(object):
             self.logger.debug("Got --fixedEndpoint, so pretend this is multi AM")
             self.isMultiAM = True
             # Note that with changes to mustCallSCS to consider the stitching extension paths,
-            # I hop this is never used/needed
+            # I hope this is never used/needed
 
         # If this is not a bound multi AM RSpec, just let Omni handle this.
         if not self.isBound or not self.isMultiAM:
@@ -1474,7 +1474,7 @@ class StitchingHandler(object):
         # doesn't try to do anything with it
         if self.opts.fixedEndpoint:
             #self.addFakeNode()
-            # FIXME: JonD now says that the fake iref/node is not needed, if instead we fine the appropriate interface
+            # FIXME: JonD now says that the fake iref/node is not needed, if instead we find the appropriate interface
             # on the real node and set component_id attribute on it explicitly, if not already set.
             self.ensureIrefCID()
 
@@ -3861,6 +3861,7 @@ class StitchingHandler(object):
     # End of ensureSliverType
 
     def ensureIrefCID(self):
+        # FIXME FIXME FIXME
         # Used with the --fixedEndpoint option
         # For each link that has interfaces at only a single AM
         # If that AM is a PG AM
