@@ -13,11 +13,11 @@ users with GENI accounts (credentials) that they can use to
 reserve resources in GENI AMs.
 
 See INSTALL.txt or 
-[the Installation instructions](http://trac.gpolab.bbn.com/gcf/wiki/QuickStart) 
+[the Installation instructions](https://github.com/GENI-NSF/geni-tools/wiki/QuickStart) 
 for details on installing Omni.
 
 See README-omniconfigure.txt or 
-http://trac.gpolab.bbn.com/gcf/wiki/OmniConfigure/Automatic for details about how to configure Omni.
+https://github.com/GENI-NSF/geni-tools/wiki/Omni-Configuration-Automatically for details about how to configure Omni.
 
 For 'stitching' (experimenter defined custom topologies) or
 multi-aggregate topologies, see README-stitching.txt.
@@ -31,7 +31,7 @@ Omni performs the following functions:
  * Contacts AMs via the GENI AM API
 
 For the latest Omni documentation, examples, and trouble shooting
-tips, see the Omni Wiki: http://trac.gpolab.bbn.com/gcf/wiki/Omni
+tips, see the Omni Wiki: https://github.com/GENI-NSF/geni-tools/wiki/Omni
 
 ## Release Notes
 
@@ -51,7 +51,10 @@ New in v2.10:
   * Thanks to Umar Toseef for the bug report.
  * Calling `getslicecred` while specifying a `slicecredfile` that exists
    no longer means just return that file. Instead, that file will be
-   ignored and, if you specify `-o`, replaced. (#868)
+   ignored and, if you specify `-o`, replaced. (#868, #869)
+ * Moved canonical `agg_nick_cache` location to Github. (#814, #882)
+ * Use `urllib2.urlopen` instead of `urllib.urlretrieve` to avoid bad
+   interaction with M2Crypto. (#881)
 
 New in v2.9:
  * If `sliverstatus` fails in a way that indicates there are no local resources,
@@ -223,9 +226,9 @@ Omni scripting allows a script to:
  * Control or suppress the logging in Omni (see the above section for details)
 
 For examples, see `src/stitcher.py` or `examples/expirationofmyslices.py` and `examples/myscript.py` in the gcf distribution.
-Or [Omni Scripting Expiration](http://trac.gpolab.bbn.com/gcf/wiki/OmniScriptingExpiration) 
+Or [Omni Scripting Expiration](https://github.com/GENI-NSF/geni-tools/wiki/Omni-Scripting-Example-Showing-Expiration) 
 and
-[Omni Scripting with Options](http://trac.gpolab.bbn.com/gcf/wiki/OmniScriptingWithOptions) 
+[Omni Scripting with Options](https://github.com/GENI-NSF/geni-tools/wiki/Omni-Scripting-Example-With-Options) 
 on the gcf wiki.
 
 **NOTE**: Omni uses multiple command line options, and creates its
@@ -402,7 +405,7 @@ Omni supports the following command-line options.
 ```
 $ ~/gcf/src/omni.py -h                            
 Usage: 
-GENI Omni Command Line Aggregate Manager Tool Version 2.10
+GENI Omni Command Line Aggregate Manager Tool Version 2.11
 Copyright (c) 2011-2015 Raytheon BBN Technologies
 
 omni.py [options] [--project <proj_name>] <command and arguments> 
@@ -458,7 +461,7 @@ omni.py [options] [--project <proj_name>] <command and arguments>
  			 print_sliver_expirations <slicename> 
 
 	 See README-omni.txt for details.
-	 And see the Omni website at http://trac.gpolab.bbn.com/gcf
+	 And see the Omni website at https://github.com/GENI-NSF/geni-tools/wiki
 
 Options:
   --version             show program's version number and exit
@@ -614,8 +617,8 @@ Options:
                         ~/.gcf/agg_nick_cache
     --AggNickDefinitiveLocation=AGGNICKDEFINITIVELOCATION
                         Website with latest agg_nick_cache, default is
-                        http://trac.gpolab.bbn.com/gcf/raw-
-                        attachment/wiki/Omni/agg_nick_cache. To force Omni to
+                        https://raw.githubusercontent.com/GENI-NSF/geni-
+                        tools/master/agg_nick_cache.base. To force Omni to
                         read this cache, delete your local AggNickCache or use
                         --NoAggNickCache.
 

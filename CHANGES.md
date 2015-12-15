@@ -1,6 +1,15 @@
 <!-- Note: keep this file in Github markdown format for easy pasting to the geni-tools wiki -->
 
+# Release notes for gcf (geni-tools) [2.11](https://github.com/GENI-NSF/geni-tools/issues?q=milestone%3A2.11)
+
 # Release notes for gcf (geni-tools) [2.10](https://github.com/GENI-NSF/geni-tools/issues?q=milestone%3A2.10)
+ * Changed references to trac.gpolab.bbn.com to point to Github.
+  * Although those pages mostly still reference trac, that is the future home. These changes include changing where the `agg_nick_cache` lives. (#814)
+ * Add some omni design notes (work in progress). (#883)
+ * Document how to create a release. (#871)
+ * Add Debian and RPM packaging configuration (#849)
+ * Update CentOS installation instructions (#853)
+
  * Omni
   * Continue anyway if no aggregate nickname cache can be loaded. (#822)
     * Sliver info reporting and operations on AMs by nickname will likely fail.
@@ -17,11 +26,16 @@
     * Thanks to Umar Toseef for the bug report.
   * Calling `getslicecred` while specifying a `slicecredfile` that exists
     no longer means just return that file. Instead, that file will be
-    ignored and, if you specify `-o`, replaced. (#868)
+    ignored and, if you specify `-o`, replaced. (#868, #869)
+  * Moved canonical `agg_nick_cache` location to Github. (#814, #882)
+  * Use `urllib2.urlopen` instead of `urllib.urlretrieve` to avoid bad
+    interaction with M2Crypto. (#881)
 
  * Stitcher
   * Catch expiration too great errors from PG AMs and quit. (#828)
   * Bug fix combining manifests involving a fixed endpoint. (#833)
+  * Fix up combining manifests using ExoGENI, to ensure the stitching
+    hops list the actual reserved VLAN tags. (#873, #876)
   * Support detecting OESS AM using `geni_am_type`. (#835)
   * Do not insist on 2 reciprocal properties on links, allowing more
     flexibility perhaps. (#838)
@@ -34,6 +48,11 @@
     in some cases. (#839)
   * AL2S supports speaks for. Don't exit if using speaksfor and AL2S. (#834)
   * Treat new generic ProtoGENI mapper error code (28) as fatal. (#861)
+  * Fix combining manifests where link is multi AM but not stitched. (#879)
+   * Thanks to Hussam Nasir
+
+ * omni-configure
+  * Modify omni-configure to support multi-user systems (#843, #877)
 
  * gcf
   * Add new parameters to decode_urns so that derived delegates can 
@@ -63,9 +82,9 @@
   * Log the HTTP request line when `--debug`. (#842)
   * Fix some typos in `Provision()` in `am3.py`. (#846)
   * Add Debian and RPM packaging configuration (#849)
-  * Fix am2 not keeping resources' state updated when creating or deleting Slivers (#848)
+  * Fix am2 not keeping resources' state updated when creating or deleting Slivers (#848, #850)
   * Update generated certificate key size and signature algorithm to more
-    modern values (#851)
+    modern values (#851, #852)
   * Update CentOS installation instructions (#853)
   * Point people to gcf-developers@googlegroups.com instead of old list.
   * In AM3, fix exception on expire_slivers. Aggregate stores resources, not slivers. (#863)
